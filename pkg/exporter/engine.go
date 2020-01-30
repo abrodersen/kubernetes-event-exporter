@@ -10,6 +10,7 @@ import (
 type Engine struct {
 	Route    Route
 	Registry ReceiverRegistry
+	ClusterName string
 }
 
 func NewEngine(config *Config, registry ReceiverRegistry) *Engine {
@@ -30,11 +31,13 @@ func NewEngine(config *Config, registry ReceiverRegistry) *Engine {
 	return &Engine{
 		Route:    config.Route,
 		Registry: registry,
+		ClusterName: config.ClusterName,
 	}
 }
 
 // OnEvent does not care whether event is add or update. Prior filtering should be done in the controller/watcher
 func (e *Engine) OnEvent(event *kube.EnhancedEvent) {
+	event.ClusterName = e.ClusterName
 	e.Route.ProcessEvent(event, e.Registry)
 }
 

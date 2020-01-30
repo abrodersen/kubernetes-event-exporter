@@ -12,6 +12,7 @@ type Config struct {
 	LogLevel  string                 `yaml:"logLevel"`
 	Route     Route                  `yaml:"route"`
 	Receivers []sinks.ReceiverConfig `yaml:"receivers"`
+	ClusterName string               `yaml:"clusterName,omitempty"`
 }
 
 func (c *Config) Validate() error {
